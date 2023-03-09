@@ -27,62 +27,73 @@ function onSubmitForm(event) {
 
   const valueSearchQuery =
     event.currentTarget.elements.searchQuery.value.trim();
-  console.log(valueSearchQuery);
-
-  // pixabeyImage('peru').then(users => console.log(users));
+  // console.log(valueSearchQuery);
 
   // pixabeyImage(valueSearchQuery)
-  //   .then(users => {
-  //     if (users.length > 20) {
-  //       clearElements();
-  //       Notiflix.Notify.info(
-  //         'Too many matches found. Please enter a more specific name.'
-  //       );
-  //       return users;
-  //     }
-  //     if (users.length === 1) {
-  //       countryList.innerHTML = '';
-  //       renderUserList(users);
-  //       return users;
-  //     }
-  //     countryInfo.innerHTML = '';
-  //     fastRender(users);
-  //     console.log(`Found:`, users.length, `country`);
-  //     return users;
-  //   })
-  //   .then(res => {
-  //     console.log(`Found Country[0]`, res[0]);
-  //     console.log(
-  //       `Country name:`,
-  //       res[0].name.official,
-  //       ` Capital:`,
-  //       Object.values(res[0].capital).join(', '),
-  //       ` Population:`,
-  //       res[0].population,
-  //       ` languages:`,
-  //       Object.values(res[0].languages).join(', ')
-  //     );
-  //   })
+  //   .then(users => console.log(users))
   //   .catch(error => {
-  //     clearElements();
-  //     Notiflix.Notify.failure(
-  //       'Sorry, there are no images matching your search query. Please try again.'
-  //     );
+  //     console.log(error);
   //   });
 
-  // event.currentTarget.reset();
+  pixabeyImage(valueSearchQuery)
+    .then(users => {
+      if (users.length > 20) {
+        clearElements();
+        Notiflix.Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+        );
+        return users;
+      }
+      if (users.length === 1) {
+        galleryEl.innerHTML = '';
+        renderUserList(users);
+        return users;
+      }
+      galleryEl.innerHTML = '';
+      renderUserList(users);
+      console.log(`Found:`, users.length, `country`);
+      return users;
+    })
+    .then(res => {
+      console.log(`Found Country[0]`, res[0]);
+      console.log(
+        `Country name:`,
+        res[0].name.official,
+        ` Capital:`,
+        Object.values(res[0].capital).join(', '),
+        ` Population:`,
+        res[0].population,
+        ` languages:`,
+        Object.values(res[0].languages).join(', ')
+      );
+    })
+    .catch(error => {
+      clearElements();
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+    });
+
+  event.currentTarget.reset();
 }
 
-pixabeyImage('peru')
-  .then(users => console.log(users))
-  .catch(error => {
-    clearElements();
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-  });
+function renderUserList(users) {
+  const markup = users
+    .map(user => {
+      return `<li>      
+      <p>
+      <img src="${user.flags.png}" width="40" alt="png">
+          <b>Country name</b>: ${user.name.official}</p>
+          <p><b>Capital</b>: ${Object.values(user.capital).join(', ')}</p>
+          <p><b>Population</b>: ${user.population}</p>
+          <p><b>languages</b>: ${Object.values(user.languages).join(', ')}</p>
+        </li>`;
+    })
+    .join('');
+  galleryEl.innerHTML = markup;
+}
 
 function clearElements() {
-  console.log(`Brr`);
+  console.log(`clearElements()`);
   galleryEl.innerHTML = '';
 }

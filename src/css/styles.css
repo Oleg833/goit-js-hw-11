@@ -28,7 +28,14 @@ b {
     font-weight: 500;
 }
 
-.country-list {
+.gallery {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* .country-list {
     margin: 0;
     list-style: none;
     padding: 24px;
@@ -43,4 +50,4 @@ b {
     list-style: none;
     padding: 44px;
     font-size: x-large;
-}
+} */
