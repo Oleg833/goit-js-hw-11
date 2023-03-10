@@ -98,6 +98,7 @@ function renderGallery(users) {
     captionsDelay: 250,
     animationSpeed: 250,
   });
+  gallery.refresh();
 }
 
 function clearElements() {
