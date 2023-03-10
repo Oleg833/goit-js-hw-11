@@ -8,7 +8,10 @@ async function pixabeyImage(param) {
   const PIXA_ORIG = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=yellow+flowers&image_type=photo&pretty=true`;
 
   const response = await axios.get(PIXA_URL);
-  console.log(response.data);
+  // throw new Error(
+  //   'Sorry, there are no images matching your search query. Please try again.'
+  // );
+  console.log(`pixabeyImage response`, response.data);
   return response.data;
 
   // try {

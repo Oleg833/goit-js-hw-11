@@ -41,9 +41,10 @@ function onSubmitForm(event) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
-        return;
+        throw new Error(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
       } else {
-        console.log(users.hits[0]);
         Notiflix.Notify.success(
           `Hooray! We  found ${users.totalHits}  images.`
         );
@@ -52,7 +53,7 @@ function onSubmitForm(event) {
       }
     })
     .then(hits => {
-      console.log(hits);
+      console.log(`This hits`, hits);
       renderGallery(hits);
     })
     .catch(error => {
@@ -99,37 +100,37 @@ function renderGallery(users) {
   });
 }
 
-function renderUserList(users) {
-  const markup = users
-    .map(
-      ({
-        webformatURL,
-        fullHDURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => {
-        return `<li>      
-      <img src="${webformatURL}"  alt="${tags}">
-      <p>
-          <b>likes</b>: ${likes}</p>
-          <p><b>views</b>: ${views}</p>
-          <p><b>comments</b>: ${comments}</p>
-          <p><b>downloads</b>: ${downloads}</p>
-        </li>`;
-        ``;
-      }
-    )
-    .join('');
-  galleryContainer.innerHTML = markup;
-}
-
 function clearElements() {
   // console.log(`clearElements()`);
   galleryContainer.innerHTML = '';
 }
+
+// function renderUserList(users) {
+//   const markup = users
+//     .map(
+//       ({
+//         webformatURL,
+//         fullHDURL,
+//         tags,
+//         likes,
+//         views,
+//         comments,
+//         downloads,
+//       }) => {
+//         return `<li>
+//       <img src="${webformatURL}"  alt="${tags}">
+//       <p>
+//           <b>likes</b>: ${likes}</p>
+//           <p><b>views</b>: ${views}</p>
+//           <p><b>comments</b>: ${comments}</p>
+//           <p><b>downloads</b>: ${downloads}</p>
+//         </li>`;
+//         ``;
+//       }
+//     )
+//     .join('');
+//   galleryContainer.innerHTML = markup;
+// }
 
 // pixabeyImage(valueSearchQuery)
 //   .then(users => {
