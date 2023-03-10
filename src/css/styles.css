@@ -50,12 +50,9 @@ button
     background-color: bisque;
 }
 img {
-    /* display: block;
-    max-width: auto;
-    height: 480px; */
     display: block;
-        max-width: 100%;
-        height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 #search-form {
@@ -73,18 +70,30 @@ img {
 .gallery {
     list-style: none;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-    height: 480px;  
+
+    flex-basis: calc((100% - 150px) / 6);
+
+}
+.gallery__item {
+    /* height: 100%; */
+    display: block;
+}
+.photo-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .info {
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
-    /* gap: 20px; */
+
+    flex-grow: 1;
 }  
 .info-item {
     display: flex;
@@ -92,11 +101,15 @@ img {
     align-items: center;
     justify-content: center;
     gap: 1px;
+
 }
+
 .load-more {
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 8px;
     margin: 16px auto;
+    z-index: -5;
 }
