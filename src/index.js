@@ -76,18 +76,18 @@ function renderGallery(users) {
         downloads,
       }) => `<a href="${fullHDURL}" class="gallery__item"
         ><div class="photo-card">
-          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-          <div class="info">
-            <p class="info-item">
-              <b>Likes</b>${likes}</p>
-            <p class="info-item">
-              <b>Views</b>${views}</p>
-            <p class="info-item">
-              <b>Comments</b>${comments}</p>
-            <p class="info-item">
-              <b>Downloads</b>${downloads}</p>
-          </div>
-        </div>      
+            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+            <div class="info">
+              <p class="info-item">
+                <b>Likes</b>${likes}</p>
+              <p class="info-item">
+                <b>Views</b>${views}</p>
+              <p class="info-item">
+                <b>Comments</b>${comments}</p>
+              <p class="info-item">
+                <b>Downloads</b>${downloads}</p>
+            </div>
+          </div>      
       </a>`
     )
     .join('');
@@ -104,6 +104,22 @@ function renderGallery(users) {
 function clearElements() {
   // console.log(`clearElements()`);
   galleryContainer.innerHTML = '';
+}
+
+function openModal() {
+  loadMoreBtn.classList.remove('is-hidden');
+  document.addEventListener('keydown', onEscPress);
+}
+
+function onEscPress(evt) {
+  console.log(evt.key, evt.code);
+  if (evt.code === 'Escape') {
+    closeModal();
+  }
+}
+function closeModal() {
+  loadMoreBtn.classList.add('is-hidden');
+  // document.removeEventListener('keydown', onEscPress);
 }
 
 // function renderUserList(users) {
