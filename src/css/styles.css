@@ -12,7 +12,9 @@ body {
     line-height: 1.5;
     filter: drop-shadow(16px 16px 40px blue);
 }
-
+a {
+    text-decoration: none;
+}
 
 
 p {
