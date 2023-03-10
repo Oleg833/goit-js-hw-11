@@ -36,8 +36,6 @@ function onSubmitForm(event) {
 
   pixabeyImage(valueSearchQuery)
     .then(users => {
-      Notiflix.Notify.success(`Hooray! We  found ${users.totalHits}  images.`);
-      console.log(`Hooray! We  found ${users.totalHits}  images.`);
       clearElements();
       if (!users.hits.length) {
         Notiflix.Notify.failure(
@@ -46,6 +44,10 @@ function onSubmitForm(event) {
         return;
       } else {
         console.log(users.hits[0]);
+        Notiflix.Notify.success(
+          `Hooray! We  found ${users.totalHits}  images.`
+        );
+        console.log(`Hooray! We  found ${users.totalHits}  images.`);
         return users.hits;
       }
     })
