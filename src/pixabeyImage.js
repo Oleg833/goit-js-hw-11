@@ -7,7 +7,7 @@ async function pixabeyImage(param) {
   const PIXA_URL = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=${param}&image_type=photo&orientation=horizontal&safesearch=true`;
   const PIXA_ORIG = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=yellow+flowers&image_type=photo&pretty=true`;
 
-  const response = await axios.get(BASE_URL);
+  const response = await axios.get(PIXA_URL);
   console.log(response.data);
   return response.data;
 
