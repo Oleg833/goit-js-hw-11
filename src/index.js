@@ -35,6 +35,7 @@ let valueSearchQuery = '';
 
 function onSubmitForm(event) {
   event.preventDefault();
+  currentHits = 0;
 
   valueSearchQuery = event.currentTarget.searchQuery.value.trim();
   if (valueSearchQuery === '') {
