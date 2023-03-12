@@ -1,5 +1,5 @@
 import './css/styles.css';
-import Notiflix from 'notiflix';
+import { Notify } from 'notiflix';
 // npm i notiflix
 // import debounce from 'lodash.debounce';
 // npm i --save lodash.debounce
@@ -12,8 +12,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import pixabeyImage from './pixabeyImage';
 
-import { galleryItems } from './gallery-items';
-
 const DEBOUNCE_DELAY = 300;
 
 const searchForm = document.querySelector('#search-form');
@@ -21,48 +19,70 @@ const inputEl = document.querySelector('input');
 const buttonFormEl = document.querySelector('button');
 const loadMoreBtn = document.querySelector('.load-more');
 const galleryContainer = document.querySelector('.gallery');
+const endCollection = document.querySelector('.end-collection');
 
 searchForm.addEventListener('submit', onSubmitForm);
 // searchForm.addEventListener('input', debounce(onFormInput, DEBOUNCE_DELAY));
 // searchForm.addEventListener('input', onFormInput);
-// loadMoreBtn.addEventListener('click', onLoadMoreClick);
+loadMoreBtn.addEventListener('click', onLoadMoreClick);
+
+let page = 1;
+let pagelimit = 40;
+let totalPages = 1;
+let currentHits = 0;
+let currentPage = 1;
+let valueSearchQuery = '';
 
 function onSubmitForm(event) {
   event.preventDefault();
 
-  const valueSearchQuery =
-    event.currentTarget.elements.searchQuery.value.trim();
+  valueSearchQuery = event.currentTarget.searchQuery.value.trim();
+  if (valueSearchQuery === '') {
+    return;
+  }
   // console.log(valueSearchQuery);
+  clearElements();
 
-  pixabeyImage(valueSearchQuery)
-    .then(users => {
-      clearElements();
-      if (!users.hits.length) {
-        Notiflix.Notify.failure(
+  render(valueSearchQuery, page);
+
+  event.currentTarget.reset();
+}
+
+function render(valueSearchQuery, page) {
+  pixabeyImage(valueSearchQuery, page)
+    .then(({ hits, totalHits }) => {
+      if (!hits.length) {
+        Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
         throw new Error(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        Notiflix.Notify.success(
-          `Hooray! We  found ${users.totalHits}  images.`
-        );
-        console.log(`Hooray! We  found ${users.totalHits}  images.`);
-        return users.hits;
+        Notify.success(`Hooray! We  found ${totalHits}  images.`);
+        console.log(`Hooray! We  found ${totalHits}  images.`);
+        renderGallery(hits);
+        currentHits += hits.length;
+        console.log('currentHits', currentHits);
+        if (currentHits < totalHits) {
+          loadMoreBtn.classList.remove('is-hidden');
+        }
+        if (currentHits === totalHits) {
+          endCollection.classList.remove('is-hidden');
+        }
       }
-    })
-    .then(hits => {
-      console.log(`This hits`, hits);
-      renderGallery(hits);
     })
     .catch(error => {
       console.log(error);
     });
-
-  // event.currentTarget.reset();
 }
 
+function onLoadMoreClick(e) {
+  console.log(currentPage);
+  // pixabeyImage(valueSearchQuery, currentPage);
+  loadMoreBtn.classList.add('is-hidden');
+  endCollection.classList.add('is-hidden');
+}
 function renderGallery(users) {
   const gallaryMarkup = users
     .map(
@@ -92,7 +112,9 @@ function renderGallery(users) {
     )
     .join('');
 
-  galleryContainer.innerHTML = gallaryMarkup;
+  // galleryContainer.innerHTML = gallaryMarkup;
+  galleryContainer.insertAdjacentHTML('beforeend', gallaryMarkup);
+
   let gallery = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionsDelay: 250,
@@ -106,21 +128,21 @@ function clearElements() {
   galleryContainer.innerHTML = '';
 }
 
-function openModal() {
-  loadMoreBtn.classList.remove('is-hidden');
-  document.addEventListener('keydown', onEscPress);
-}
+// function openModal() {
+//   loadMoreBtn.classList.remove('is-hidden');
+//   document.addEventListener('keydown', onEscPress);
+// }
 
-function onEscPress(evt) {
-  console.log(evt.key, evt.code);
-  if (evt.code === 'Escape') {
-    closeModal();
-  }
-}
-function closeModal() {
-  loadMoreBtn.classList.add('is-hidden');
-  // document.removeEventListener('keydown', onEscPress);
-}
+// function onEscPress(evt) {
+//   console.log(evt.key, evt.code);
+//   if (evt.code === 'Escape') {
+//     closeModal();
+//   }
+// }
+// function closeModal() {
+//   loadMoreBtn.classList.add('is-hidden');
+//   // document.removeEventListener('keydown', onEscPress);
+// }
 
 // function renderUserList(users) {
 //   const markup = users
@@ -153,7 +175,7 @@ function closeModal() {
 //   .then(users => {
 //     if (users.length > 20) {
 //       clearElements();
-//       Notiflix.Notify.info(
+//       Notify.info(
 //         'Too many matches found. Please enter a more specific name.'
 //       );
 //       return users;
@@ -184,7 +206,7 @@ function closeModal() {
 //   .catch(error => {
 //     clearElements();
 //     console.log(error);
-//     Notiflix.Notify.failure(
+//     Notify.failure(
 //       'Sorry, there are no images matching your search query. Please try again.'
 //     );
 //   });

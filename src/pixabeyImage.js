@@ -2,17 +2,17 @@ export default pixabeyImage;
 
 import axios from 'axios';
 
-async function pixabeyImage(param) {
+async function pixabeyImage(param, page) {
   const BASE_URL = `https://restcountries.com/v3.1/name/${param}?fields=name,capital,population,flags,languages`;
-  const PIXA_URL = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=${param}&image_type=photo&orientation=horizontal&safesearch=true`;
-  const PIXA_ORIG = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=yellow+flowers&image_type=photo&pretty=true`;
+  const PIXA_URL = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=${param}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`;
+  const PIXA_ORIG = `https://pixabay.com/api/?key=34212854-f6457ae4e5e1013dd0f507693&q=yellow+flowers&image_type=photo&pretty=true&per_page=40&page=${page}`;
 
-  const response = await axios.get(PIXA_URL);
+  const { data } = await axios.get(PIXA_URL);
   // throw new Error(
   //   'Sorry, there are no images matching your search query. Please try again.'
   // );
-  console.log(`pixabeyImage response`, response.data);
-  return response.data;
+  console.log(`pixabeyImage response`, data);
+  return data;
 
   // try {
   //   const response = await axios.get(BASE_URL);
