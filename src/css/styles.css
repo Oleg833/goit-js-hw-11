@@ -116,9 +116,9 @@ img {
 }
 
 .end-collection {
-        font-weight: 700;
-        font-size: 24px;
-        text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
 }
 
 .end-collection.is-hidden {
