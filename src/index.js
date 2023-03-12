@@ -67,9 +67,12 @@ function render(valueSearchQuery, page) {
         console.log('currentHits', currentHits);
         if (currentHits < totalHits) {
           loadMoreBtn.classList.remove('is-hidden');
+          endCollection.classList.add('is-hidden');
+          console.log(`end Hide`);
         }
         if (currentHits === totalHits) {
           endCollection.classList.remove('is-hidden');
+          loadMoreBtn.classList.add('is-hidden');
         }
       }
     })
