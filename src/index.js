@@ -12,33 +12,26 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import pixabeyImage from './pixabeyImage';
 
-const DEBOUNCE_DELAY = 300;
-
 const searchForm = document.querySelector('#search-form');
-const inputEl = document.querySelector('input');
-const buttonFormEl = document.querySelector('button');
 const loadMoreBtn = document.querySelector('.load-more');
 const galleryContainer = document.querySelector('.gallery');
 const endCollection = document.querySelector('.end-collection');
 
 searchForm.addEventListener('submit', onSubmitForm);
-// searchForm.addEventListener('input', debounce(onFormInput, DEBOUNCE_DELAY));
-// searchForm.addEventListener('input', onFormInput);
+
 loadMoreBtn.addEventListener('click', onLoadMoreClick);
 
 let page = 1;
-let pagelimit = 40;
-let totalPages = 1;
 let currentHits = 0;
-let currentPage = 1;
 let valueSearchQuery = '';
-// let gallery = null;
 
 function onSubmitForm(event) {
   event.preventDefault();
   currentHits = 0;
   clearElements();
   page = 1;
+
+  endCollection.classList.add('is-hidden');
 
   valueSearchQuery = event.currentTarget.searchQuery.value.trim();
   if (valueSearchQuery === '') {
@@ -67,12 +60,11 @@ function render(valueSearchQuery) {
         renderGallery(hits);
         currentHits += hits.length;
         page += 1;
-        console.log(`page = `, page);
         console.log('currentHits', currentHits);
         if (currentHits < totalHits) {
           loadMoreBtn.classList.remove('is-hidden');
           endCollection.classList.add('is-hidden');
-          console.log(`end Hide`);
+          // console.log(`end Hide`);
         }
         if (currentHits === totalHits) {
           endCollection.classList.remove('is-hidden');
@@ -123,19 +115,8 @@ function renderGallery(users) {
 
   // galleryContainer.innerHTML = gallaryMarkup;
   galleryContainer.insertAdjacentHTML('beforeend', gallaryMarkup);
-  // if (gallery) {
-  //   console.log(`Gallery destroy()`);
-  //   gallery.destroy();
-  //   gallery = null;
-  // }
-  if (!gallery) {
-    console.log(`Create gallery`);
-  } else {
-    console.log(`Gallery refresh`);
-    gallery.refresh();
-  }
 
-  // gallery.refresh();
+  gallery.refresh();
 }
 
 let gallery = new SimpleLightbox('.gallery a', {
