@@ -18,10 +18,10 @@ p {
     margin: 0;
 }
 b {
-        font-weight: 700;
-        font-size: 9px;
-        text-align: center;
-}
+    font-weight: 700;
+    font-size: 9px;
+    text-align: center;
+
 button {
     color: black;
         background-color: blueviolet;
