@@ -9,7 +9,7 @@ body {
     background-color: #fafafa;
     color: #212121;
     line-height: 1.5;
-    filter: drop-shadow(16px 16px 40px blue);
+    
 }
 a {
     text-decoration: none;
@@ -73,7 +73,7 @@ img {
     flex-wrap: wrap;
     /* align-items: center; */
     gap: 10px;
-    
+    filter: drop-shadow(16px 16px 40px blue);
 }
 .gallery__item {
     flex-basis: calc((100% - 50px) / 6);
