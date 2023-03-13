@@ -32,24 +32,26 @@ let totalPages = 1;
 let currentHits = 0;
 let currentPage = 1;
 let valueSearchQuery = '';
+// let gallery = null;
 
 function onSubmitForm(event) {
   event.preventDefault();
   currentHits = 0;
+  clearElements();
+  page = 1;
 
   valueSearchQuery = event.currentTarget.searchQuery.value.trim();
   if (valueSearchQuery === '') {
     return;
   }
   // console.log(valueSearchQuery);
-  clearElements();
 
-  render(valueSearchQuery, page);
+  render(valueSearchQuery);
 
   event.currentTarget.reset();
 }
 
-function render(valueSearchQuery, page) {
+function render(valueSearchQuery) {
   pixabeyImage(valueSearchQuery, page)
     .then(({ hits, totalHits }) => {
       if (!hits.length) {
@@ -64,6 +66,8 @@ function render(valueSearchQuery, page) {
         console.log(`Hooray! We  found ${totalHits}  images.`);
         renderGallery(hits);
         currentHits += hits.length;
+        page += 1;
+        console.log(`page = `, page);
         console.log('currentHits', currentHits);
         if (currentHits < totalHits) {
           loadMoreBtn.classList.remove('is-hidden');
@@ -82,11 +86,12 @@ function render(valueSearchQuery, page) {
 }
 
 function onLoadMoreClick(e) {
-  console.log(currentPage);
-  // pixabeyImage(valueSearchQuery, currentPage);
+  console.log(`btn page`, page);
+  render(valueSearchQuery);
   loadMoreBtn.classList.add('is-hidden');
   endCollection.classList.add('is-hidden');
 }
+
 function renderGallery(users) {
   const gallaryMarkup = users
     .map(
@@ -118,14 +123,26 @@ function renderGallery(users) {
 
   // galleryContainer.innerHTML = gallaryMarkup;
   galleryContainer.insertAdjacentHTML('beforeend', gallaryMarkup);
+  // if (gallery) {
+  //   console.log(`Gallery destroy()`);
+  //   gallery.destroy();
+  //   gallery = null;
+  // }
+  if (!gallery) {
+    console.log(`Create gallery`);
+  } else {
+    console.log(`Gallery refresh`);
+    gallery.refresh();
+  }
 
-  let gallery = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionsDelay: 250,
-    animationSpeed: 250,
-  });
-  gallery.refresh();
+  // gallery.refresh();
 }
+
+let gallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionsDelay: 250,
+  animationSpeed: 250,
+});
 
 function clearElements() {
   // console.log(`clearElements()`);
