@@ -54,6 +54,7 @@ function render(valueSearchQuery) {
   pixabeyImage(valueSearchQuery, page)
     .then(({ hits, totalHits }) => {
       if (!hits.length) {
+        clearElements();
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
