@@ -25,6 +25,12 @@ let page = 1;
 let currentHits = 0;
 let valueSearchQuery = '';
 
+let gallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionsDelay: 250,
+  animationSpeed: 250,
+});
+
 function onSubmitForm(event) {
   event.preventDefault();
   currentHits = 0;
@@ -127,12 +133,6 @@ function renderGallery(users) {
     behavior: 'smooth',
   });
 }
-
-let gallery = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionsDelay: 250,
-  animationSpeed: 250,
-});
 
 function clearElements() {
   // console.log(`clearElements()`);
