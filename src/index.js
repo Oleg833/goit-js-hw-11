@@ -78,7 +78,7 @@ function render(valueSearchQuery) {
 }
 
 function onLoadMoreClick(e) {
-  console.log(`btn page`, page);
+  console.log(`btn click page`, page);
   render(valueSearchQuery);
   loadMoreBtn.classList.add('is-hidden');
   endCollection.classList.add('is-hidden');
