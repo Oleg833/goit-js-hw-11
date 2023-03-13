@@ -65,6 +65,13 @@ img {
     padding: 8px;
     max-width: 320px;
     margin: 16px auto;
+    position: fixed;
+    z-index: 1;
+    left: 36%;
+    border: transparent solid 1px;
+        border-radius: 4px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 .gallery {
     list-style: none;
