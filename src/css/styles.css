@@ -76,7 +76,8 @@ img {
     
 }
 .gallery__item {
-    flex-basis: calc((100% - 50px) / 6);    
+    flex-basis: calc((100% - 50px) / 6);
+    cursor: zoom-in;
 }
 .photo-card {
     height: 100%;
