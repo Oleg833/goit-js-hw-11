@@ -61,8 +61,8 @@ function render(valueSearchQuery) {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        Notify.success(`Hooray! We  found ${totalHits}  images.`);
-        console.log(`Hooray! We  found ${totalHits}  images.`);
+        Notify.success(`Hooray! We  found ${totalHits - currentHits}  images.`);
+        console.log(`Hooray! We  found ${totalHits - currentHits}  images.`);
         renderGallery(hits);
         currentHits += hits.length;
         page += 1;
