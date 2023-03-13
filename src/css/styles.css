@@ -76,7 +76,6 @@ img {
     
 }
 .gallery__item {
-    display: flex;
     flex-basis: calc((100% - 150px) / 6);    
 }
 .photo-card {
