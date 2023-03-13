@@ -86,7 +86,7 @@ img {
     filter: drop-shadow(16px 16px 40px blue);
 }
 .gallery__item {
-    flex-basis: calc((100% - 50px) / 6);
+    flex-basis: calc((100% - 40px) / 5);
     cursor: zoom-in;
 }
 .photo-card {
