@@ -4,7 +4,7 @@ import { Notify } from 'notiflix';
 // import debounce from 'lodash.debounce';
 // npm i --save lodash.debounce
 // import throttle from 'lodash.throttle';
-import axios from 'axios';
+// import axios from 'axios';
 // npm install axios
 import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
@@ -138,6 +138,8 @@ function renderGallery(users) {
 function clearElements() {
   // console.log(`clearElements()`);
   galleryContainer.innerHTML = '';
+  loadMoreBtn.classList.add('is-hidden');
+  endCollection.classList.add('is-hidden');
 }
 
 // function openModal() {
