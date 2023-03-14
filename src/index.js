@@ -70,12 +70,12 @@ function render(valueSearchQuery) {
         console.log('currentHits', currentHits);
         if (currentHits < totalHits) {
           loadMoreBtn.classList.remove('is-hidden');
-          endCollection.classList.add('is-hidden');
+          endCollectionHidden();
           // console.log(`end Hide`);
         }
         if (currentHits === totalHits) {
           endCollection.classList.remove('is-hidden');
-          loadMoreBtn.classList.add('is-hidden');
+          loadMoreBtnHidden();
         }
       }
     })
@@ -87,7 +87,12 @@ function render(valueSearchQuery) {
 function onLoadMoreClick(e) {
   console.log(`btn click page`, page);
   render(valueSearchQuery);
+  loadMoreBtnHidden();
+}
+function loadMoreBtnHidden() {
   loadMoreBtn.classList.add('is-hidden');
+}
+function endCollectionHidden() {
   endCollection.classList.add('is-hidden');
 }
 
@@ -138,8 +143,8 @@ function renderGallery(users) {
 function clearElements() {
   // console.log(`clearElements()`);
   galleryContainer.innerHTML = '';
-  loadMoreBtn.classList.add('is-hidden');
-  endCollection.classList.add('is-hidden');
+  loadMoreBtnHidden();
+  endCollectionHidden();
 }
 
 // function openModal() {
