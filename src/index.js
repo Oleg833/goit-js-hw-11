@@ -1,11 +1,6 @@
 import './css/styles.css';
 import { Notify } from 'notiflix';
-// npm i notiflix
-// import debounce from 'lodash.debounce';
-// npm i --save lodash.debounce
-// import throttle from 'lodash.throttle';
-// import axios from 'axios';
-// npm install axios
+
 import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -31,62 +26,65 @@ let gallery = new SimpleLightbox('.gallery a', {
   animationSpeed: 250,
 });
 
-function onSubmitForm(event) {
+async function onSubmitForm(event) {
   event.preventDefault();
   currentHits = 0;
   clearElements();
   page = 1;
 
-  endCollection.classList.add('is-hidden');
-
   valueSearchQuery = event.currentTarget.searchQuery.value.trim();
   if (valueSearchQuery === '') {
     return;
   }
-  // console.log(valueSearchQuery);
-
-  render(valueSearchQuery);
 
   event.currentTarget.reset();
+
+  const totalHits = await GetUsers(valueSearchQuery);
+  if (totalHits) {
+    successNotify(totalHits);
+  }
 }
 
-function render(valueSearchQuery) {
-  pixabeyImage(valueSearchQuery, page)
-    .then(({ hits, totalHits }) => {
-      if (!hits.length) {
-        clearElements();
-        Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        throw new Error(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-      } else {
-        Notify.success(`Hooray! We  found ${totalHits - currentHits}  images.`);
-        console.log(`Hooray! We  found ${totalHits - currentHits}  images.`);
-        renderGallery(hits);
-        currentHits += hits.length;
-        page += 1;
-        console.log('currentHits', currentHits);
-        if (currentHits < totalHits) {
-          loadMoreBtn.classList.remove('is-hidden');
-          endCollectionHidden();
-          // console.log(`end Hide`);
-        }
-        if (currentHits === totalHits) {
-          endCollection.classList.remove('is-hidden');
-          loadMoreBtnHidden();
-        }
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    });
+async function GetUsers(valueSearchQuery) {
+  try {
+    const { hits, totalHits } = await pixabeyImage(valueSearchQuery, page);
+    if (!hits.length) {
+      throwError();
+    } else {
+      renderGallery(hits);
+      currentHits += hits.length;
+      console.log('currentHits', currentHits);
+      loadMoreBtnActive(totalHits);
+      return totalHits;
+    }
+  } catch (error) {
+    failureNotify(error);
+  }
 }
-
+function loadMoreBtnActive(totalHits) {
+  if (currentHits < totalHits) {
+    loadMoreBtn.classList.remove('is-hidden');
+    endCollectionHidden();
+  } else {
+    endCollection.classList.remove('is-hidden');
+    loadMoreBtnHidden();
+  }
+}
+function failureNotify(error) {
+  Notify.failure(`${error}`);
+}
+function successNotify(totalHits) {
+  Notify.success(`Hooray! We  found ${totalHits}  images.`);
+  console.log(`Hooray! We  found ${totalHits}  images.`);
+}
+function throwError() {
+  throw new Error(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
+}
 function onLoadMoreClick(e) {
-  console.log(`btn click page`, page);
-  render(valueSearchQuery);
+  page += 1;
+  GetUsers(valueSearchQuery);
   loadMoreBtnHidden();
 }
 function loadMoreBtnHidden() {
@@ -141,11 +139,29 @@ function renderGallery(users) {
 }
 
 function clearElements() {
-  // console.log(`clearElements()`);
   galleryContainer.innerHTML = '';
   loadMoreBtnHidden();
   endCollectionHidden();
 }
+
+// async function render(valueSearchQuery) {
+//   return pixabeyImage(valueSearchQuery, page)
+//     .then(({ hits, totalHits }) => {
+//       if (!hits.length) {
+//         throwError();
+//       } else {
+//         renderGallery(hits);
+//         currentHits += hits.length;
+//         console.log('currentHits', currentHits);
+//         loadMoreBtnActive(totalHits);
+//         return totalHits;
+//       }
+//     })
+//     .catch(error => {
+//       console.log(error);
+//       failureNotify(error);
+//     });
+// }
 
 // function openModal() {
 //   loadMoreBtn.classList.remove('is-hidden');
