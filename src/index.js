@@ -52,6 +52,7 @@ async function GetUsers(valueSearchQuery) {
       throwError();
     } else {
       renderGallery(hits);
+      // slowlyScroll();
       currentHits += hits.length;
       console.log('currentHits', currentHits);
       loadMoreBtnActive(totalHits);
@@ -61,6 +62,25 @@ async function GetUsers(valueSearchQuery) {
     failureNotify(error);
   }
 }
+
+async function GetUsersBtn(valueSearchQuery) {
+  try {
+    const { hits, totalHits } = await pixabeyImage(valueSearchQuery, page);
+    if (!hits.length) {
+      throwError();
+    } else {
+      renderGallery(hits);
+      slowlyScroll();
+      currentHits += hits.length;
+      console.log('currentHits', currentHits);
+      loadMoreBtnActive(totalHits);
+      return totalHits;
+    }
+  } catch (error) {
+    failureNotify(error);
+  }
+}
+
 function loadMoreBtnActive(totalHits) {
   if (currentHits < totalHits) {
     loadMoreBtn.classList.remove('is-hidden');
@@ -84,7 +104,7 @@ function throwError() {
 }
 function onLoadMoreClick(e) {
   page += 1;
-  GetUsers(valueSearchQuery);
+  GetUsersBtn(valueSearchQuery);
   loadMoreBtnHidden();
 }
 function loadMoreBtnHidden() {
@@ -127,7 +147,10 @@ function renderGallery(users) {
   galleryContainer.insertAdjacentHTML('beforeend', gallaryMarkup);
 
   gallery.refresh();
+  // slowlyScroll();
+}
 
+function slowlyScroll() {
   const { height: cardHeight } = document
     .querySelector('.gallery')
     .firstElementChild.getBoundingClientRect();
@@ -137,7 +160,6 @@ function renderGallery(users) {
     behavior: 'smooth',
   });
 }
-
 function clearElements() {
   galleryContainer.innerHTML = '';
   loadMoreBtnHidden();
